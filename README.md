@@ -733,7 +733,7 @@ while true
 end while
 ```
 
-![in browser](fcgiCodecExample.gif)
+![in browser](/data/fcgiCodecExample.gif)
 
 ## Social art
 
