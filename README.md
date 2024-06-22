@@ -475,7 +475,7 @@ Properties of a request map:
 | `dataString` | (if `DataMsg` is present) data for `FCGI_FILTER` role as a string |
 | `names` | (if `GetValuesMsg` is present) list of names of requested variables |
 | `result` | (if `GetValuesResultMsg` is present) map of requested variables |
-| `unknownType` | (if `UnknownTypeMsg` is present) map of requested variables |
+| `unknownType` | (if `UnknownTypeMsg` is present) unknown record type |
 
 If some message is not present, the value of its additional property is `null`.
 
