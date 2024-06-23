@@ -169,7 +169,7 @@ end while
 
 FastCGI client and server exchange data which are packed in binary structures named "records".
 
-This library provides two classes to manage such records in code: `Record` class and `RecordDecoder` class.
+This library provides two classes to manage such records in code: [Record](#record-class) class and [RecordDecoder](#recorddecoder-class) class.
 
 To create a record object, call `Record.make()` factory. Then, to get its raw bytes, call `toRawData()` method.
 
@@ -180,15 +180,15 @@ These two classes provide a simple API, but it has a couple of disadvantages:
 - Records only know about their `recordType`, `requestId` and `body`, the type specific info is not parsed (you can easily craft a record with a nonsense body).
 - "Stream" handling -- breaking and glueing together the payload of successive stream record types -- has to be done manually.
 
-To overcome these problems use `*Msg` classes ("messages"). They're like `Record` class but with type specific properties for each record type that you can read or modify. Also, the stream records have their bodies glued together into a single data chunk under one message object. To create a message, call `make()` factory of a particular message class. See below what properties each of the `*Msg` classes has.
+To overcome these problems use [*Msg](#msg-classes) classes ("messages"). They're like `Record` class but with type specific properties for each record type that you can read or modify. Also, the stream records have their bodies glued together into a single data chunk under one message object. To create a message, call `make()` factory of a particular message class. See below what properties each of the `*Msg` classes has.
 
 There's no special method to generate the `RawData` of a message, instead use `toRecords()` method first and then call `toRawData()` of each record. There's also no method to parse messages from a `RawData` stream (I didn't need it, so I didn't code it) -- however, if you have records and want to convert them into messages, you can do it by using a `Bucket` object.
 
-The `Bucket` class helps with the multiplexed/interleaved workflow when the client may send FastCGI records for several requests simultaneously. You add records to a `Bucket` using its `pushRecord()` method and then you handle *requests* using `handleOne()` or `handleAll()` methods.
+The [Bucket](#bucket-class) class helps with the multiplexed/interleaved workflow when the client may send FastCGI records for several requests simultaneously. You add records to a `Bucket` using its `pushRecord()` method and then you handle *requests* using `handleOne()` or `handleAll()` methods.
 
 The request objects accumulated by a `Bucket` are not instances of some class but just adhoc maps with messages as the values, plus some properties. (Note that if your code is running on the client side and is consuming data from a server, then what you get is not technically requests but *responses*, but `Bucket` doesn't care.)
 
-`NameValuePairs` class is handy with record types that encode their body in a "name-value pairs" format (\<NAME_LENGTH> \<VALUE_LENGTH> \<NAME> \<VALUE> ... etc). Most of the times, `NameValuePairs` objects don't need to be created directly but instead are exposed through `*Msg` or request objects. However, you also can create one yourself by calling `NameValuePairs.make()` factory. Also, no one will stop you from using `NameValuePairs` on their own outside FastCGI context just for serialization of flat name-value maps.
+[NameValuePairs](#namevaluepairs) class is handy with record types that encode their body in a "name-value pairs" format (\<NAME_LENGTH> \<VALUE_LENGTH> \<NAME> \<VALUE> ... etc). Most of the times, `NameValuePairs` objects don't need to be created directly but instead are exposed through `*Msg` or request objects. However, you also can create one yourself by calling `NameValuePairs.make()` factory. Also, no one will stop you from using `NameValuePairs` on their own outside FastCGI context just for serialization of flat name-value maps.
 
 To manage name-value pairs use `hasName()`, `getValue()`, `setValue()` and `deleteValue()` methods. If you want to parse name-value pairs from `RawData` chunks, use the `pushData()` method, and to get the raw bytes, call `toRawData()` method.
 
