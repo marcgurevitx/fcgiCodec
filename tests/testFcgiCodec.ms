@@ -94,7 +94,7 @@ end function
 
 testStringToRawData = function
 	qa.assertEqual fcgiCodec.stringToRawData("hello world!").utf8, "hello world!"
-	qa.assertEqual fcgiCodec.stringToRawData("Привіт Світ!").utf8, "Привіт Світ!"
+	qa.assertEqual fcgiCodec.stringToRawData("привіт світе!").utf8, "привіт світе!"
 	qa.assertEqual fcgiCodec.stringToRawData("こんにちは世界!").utf8, "こんにちは世界!"
 end function
 

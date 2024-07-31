@@ -1,6 +1,8 @@
 import "importUtil"
 ensureImport "qa"
 
+version = "0.1.1"
+
 x80_00_00_00 = 128 * 2 ^ 24
 
 bytesAlignment = 8
